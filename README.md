@@ -17,11 +17,13 @@
 > **Note** : 
 > This is an automated backup script that takes a backup of the Filesystem and Database and uploads the backups to the FTP-Server and retains the backup data for a specified time.
 
-> ***WARNING*** : This script works in LINUX BASED server's only
+> **WARNING** : 
+> This script works in LINUX BASED server's only
 
 ## Requirements 
 ---
--   This script should be executed as SUDO user or SUDO privileged user.
+> **Note**
+> This script should be executed as SUDO user or SUDO privileged user.
 
 -   This script requires **Python3**, **Cron**, **Tarball**, **FTP** to be installed in the server.
 
