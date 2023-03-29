@@ -17,7 +17,7 @@
 > **Note** : 
 > This is an automated backup script that takes a backup of the Filesystem and Database and uploads the backups to the FTP-Server and retains the backup data for a specified time.
 
-> **WARNING** : 
+> **Warning** : 
 > This script works in LINUX BASED server's only
 
 ## Requirements 
