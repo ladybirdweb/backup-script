@@ -21,40 +21,41 @@ skyblue=$(tput setaf 14)
 
 reset=$(tput sgr0)
 
-# Faveo Banner.
+# Banner.
+echo -e "																									"
+echo -e "																									"
+sleep 0.1
+echo -e "$blue						██████╗  █████╗  ██████╗██╗  ██╗██╗   ██╗██████╗     ███████╗ ██████╗██████╗ ██╗██████╗ ████████╗				  		$reset"
+sleep 0.1
+echo -e "$blue						██╔══██╗██╔══██╗██╔════╝██║ ██╔╝██║   ██║██╔══██╗    ██╔════╝██╔════╝██╔══██╗██║██╔══██╗╚══██╔══╝				  		$reset"
+sleep 0.1
+echo -e "$blue						██████╔╝███████║██║     █████╔╝ ██║   ██║██████╔╝    ███████╗██║     ██████╔╝██║██████╔╝   ██║					  		$reset"
+sleep 0.1
+echo -e "$blue						██╔══██╗██╔══██║██║     ██╔═██╗ ██║   ██║██╔═══╝     ╚════██║██║     ██╔══██╗██║██╔═══╝    ██║					  		$reset"
+sleep 0.1
+echo -e "$blue						██████╔╝██║  ██║╚██████╗██║  ██╗╚██████╔╝██║         ███████║╚██████╗██║  ██║██║██║        ██║					  		$reset"
+sleep 0.1
+echo -e "$blue						╚═════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝         ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝╚═╝        ╚═╝					  		$reset"
+sleep 0.1
+echo -e "																									"
 
-echo -e "$skyblue                                                                                                                         $reset";
-sleep 0.05
-echo -e "$skyblue                                        _______ _______ _     _ _______ _______                                          $reset";
-sleep 0.05
-echo -e "$skyblue                                       (_______|_______|_)   (_|_______|_______)                                         $reset";
-sleep 0.05
-echo -e "$skyblue                                        _____   _______ _     _ _____   _     _                                          $reset";
-sleep 0.05
-echo -e "$skyblue                                       |  ___) |  ___  | |   | |  ___) | |   | |                                         $reset";
-sleep 0.05
-echo -e "$skyblue                                       | |     | |   | |\ \ / /| |_____| |___| |                                         $reset";
-sleep 0.05
-echo -e "$skyblue                                       |_|     |_|   |_| \___/ |_______)\_____/                                          $reset";
-sleep 0.05
-echo -e "$skyblue                                                                                                                         $reset";
-sleep 0.05
-echo -e "$skyblue                               _     _ _______ _       ______ ______  _______  ______ _     _                            $reset";
-sleep 0.05
-echo -e "$skyblue                             (_)   (_|_______|_)     (_____ (______)(_______)/ _____|_)   | |                            $reset";
-sleep 0.05
-echo -e "$skyblue                              _______ _____   _       _____) )     _ _____  ( (____  _____| |                            $reset";
-sleep 0.05
-echo -e "$skyblue                             |  ___  |  ___) | |     |  ____/ |   | |  ___)  \____ \|  _   _)                            $reset";
-sleep 0.05
-echo -e "$skyblue                             | |   | | |_____| |_____| |    | |__/ /| |_____ _____) ) |  \ \                             $reset";
-sleep 0.05
-echo -e "$skyblue                             |_|   |_|_______)_______)_|    |_____/ |_______|______/|_|   \_)                            $reset";
-sleep 0.05
-echo -e "$skyblue                                                                                                                         $reset";
-sleep 0.05
-echo -e "$skyblue                                                                                                                         $reset";
 
+
+# Detect Debian users running the script with "sh" instead of bash.
+    
+echo -e " ";
+if readlink /proc/$$/exe | grep -q "dash"; then
+	echo "&red This installer needs to be run with 'bash', not 'sh'. $reset";
+	exit 1
+fi
+
+# Checking for the Super User.
+    
+echo -e " ";
+if [[ $EUID -ne 0 ]]; then
+   echo -e "$red This script must be run as root $reset";
+   exit 1
+fi
 
 # FUNCTION TO ADD OR REMOVE THE CORN JOB
 
