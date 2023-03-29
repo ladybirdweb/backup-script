@@ -1,18 +1,19 @@
 ```
 
-                 ______                      _    _      _           _           _    
-                |  ____|                    | |  | |    | |         | |         | |   
-                | |__ __ ___   _____  ___   | |__| | ___| |_ __   __| | ___  ___| | __
-                |  __/ _` \ \ / / _ \/ _ \  |  __  |/ _ \ | '_ \ / _` |/ _ \/ __| |/ /
-                | | | (_| |\ V /  __/ (_) | | |  | |  __/ | |_) | (_| |  __/\__ \   < 
-                |_|  \__,_| \_/ \___|\___/  |_|  |_|\___|_| .__/ \__,_|\___||___/_|\_\
-                                                          | |                         
-                                                          |_|                         
+																									
+																									
+								██████╗  █████╗  ██████╗██╗  ██╗██╗   ██╗██████╗     ███████╗ ██████╗██████╗ ██╗██████╗ ████████╗				  
+								██╔══██╗██╔══██╗██╔════╝██║ ██╔╝██║   ██║██╔══██╗    ██╔════╝██╔════╝██╔══██╗██║██╔══██╗╚══██╔══╝				  
+								██████╔╝███████║██║     █████╔╝ ██║   ██║██████╔╝    ███████╗██║     ██████╔╝██║██████╔╝   ██║					  
+								██╔══██╗██╔══██║██║     ██╔═██╗ ██║   ██║██╔═══╝     ╚════██║██║     ██╔══██╗██║██╔═══╝    ██║					  
+								██████╔╝██║  ██║╚██████╗██║  ██╗╚██████╔╝██║         ███████║╚██████╗██║  ██║██║██║        ██║					  
+								╚═════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝         ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝╚═╝        ╚═╝					  
+																					
              
 ```
 
 
-# Faveo Helpdesk Backup-Script
+# Backup-Script
 
 > **Note** : 
 > This is an automated backup script that takes a backup of the Filesystem and Database and uploads the backups to the FTP-Server and retains the backup data for a specified time.
@@ -43,7 +44,7 @@ https://github.com/ladybirdweb/backup-script.git
 # Set the Backup Retention period in days for REMOTE Default 7 days:
 BACKUP_RETENTION = 7
 
-# Set the Backup Retention period in days for local Default 5 mins:
+# Set the Backup Retention period in days for local data, (defined Default as 5 mins):
 LOCAL_BACKUP_RETENTION = 5 / (24 * 60)
 
 # Set the directory you want to store backup files
