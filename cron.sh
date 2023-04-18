@@ -117,16 +117,29 @@ function add_or_remove_cron() {
 	    fi
 	fi
 	
-	# SET UP THE CRON JOB TO RUN THE SCRIPT AT THE SPECIFIED TIME AND INTERVAL
-	(crontab -l 2>/dev/null; echo "${cron_time} ${interval} python3 ${script_dir}/main.py >> ${script_dir}/backup.log 2>&1") | crontab -
-	
-	echo -e "$green Cron job set up successfully. $reset"
+	function remote_or_local {
 
-
+	# PROMPT THE USER FOR LOCAL OR REMOTE BACKUPS
+		echo -e "$yellow Do you want to store the backup Locally or to Remote storage: Please select (A) for Remote and (B) for Local $reset"
+		read -p "Option (Remote:A / Local: B)" REPLY
+    	if [[ $REPLY = (A|a) ]]; then
+		# SET UP THE CRON JOB TO RUN THE SCRIPT AT THE SPECIFIED TIME AND INTERVAL
+			(crontab -l 2>/dev/null; echo "${cron_time} ${interval} python3 ${script_dir}/mainremote.py >> ${script_dir}/backup.log 2>&1") | crontab -
+			echo -e "$green Cron job set up successfully. $reset"
+    	elif [[ $REPLY = (B/b)]]; then
+		# SET UP THE CRON JOB TO RUN THE SCRIPT AT THE SPECIFIED TIME AND INTERVAL
+			(crontab -l 2>/dev/null; echo "${cron_time} ${interval} python3 ${script_dir}/mainlocal.py >> ${script_dir}/backup.log 2>&1") | crontab -
+			echo -e "$green Cron job set up successfully. $reset"
+		else 
+			echo -e "$red Invalid choice. Please enter 'A' or 'B'. $reset"
+			remote_or_local
+		fi
+		}
     elif [[ "$choice" == "remove" ]]; then
 
-        # CODE TO REMOVE CRON JOB
-	crontab -l | grep -v "main.py" | crontab -
+    # CODE TO REMOVE CRON JOB
+	crontab -l | grep -v "mainremote.py" | crontab -
+	crontab -l | grep -v "mainlocal.py" | crontab -
         echo -e "$green Cron job removed! $reset"
     else
         echo -e "$red Invalid choice. Please enter 'add' or 'remove'. $reset"
