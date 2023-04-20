@@ -126,7 +126,7 @@ function add_or_remove_cron() {
 		# SET UP THE CRON JOB TO RUN THE SCRIPT AT THE SPECIFIED TIME AND INTERVAL
 			(crontab -l 2>/dev/null; echo "${cron_time} ${interval} python3 ${script_dir}/mainremote.py >> ${script_dir}/backup.log 2>&1") | crontab -
 			echo -e "$green Cron job set up successfully. $reset"
-    	elif [[ $REPLY = @(B/b)]]; then
+    	elif [[ $REPLY = @(B|b) ]]; then
 		# SET UP THE CRON JOB TO RUN THE SCRIPT AT THE SPECIFIED TIME AND INTERVAL
 			(crontab -l 2>/dev/null; echo "${cron_time} ${interval} python3 ${script_dir}/mainlocal.py >> ${script_dir}/backup.log 2>&1") | crontab -
 			echo -e "$green Cron job set up successfully. $reset"
