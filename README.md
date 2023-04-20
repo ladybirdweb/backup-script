@@ -122,10 +122,14 @@ Select the cron interval:
 2. Weekly (this cron is defaulted to run every Sunday on every week to change you need to edit interval_choice inside the cron.sh file)
 3. Monthly (this cron is defaulted to run on the first of every month to change this you need to edit the interval choice inside the cron.sh file)
 ```
-- The final step is to mention the time in 24.00 hrs format, on this time the cron will run at the specified interval.
+- The next step is to mention the time in 24.00 hrs format, on this time the cron will run at the specified interval.
 
 ```
 Enter the time of day to run the cron job (in 24-hour format, e.g. 23:30) or press Enter to use the default time of midnight:
+```
+- The final step is to select whether to store backups in local server or to the remote serevr to do so the script will ask you the below.
+```
+Do you want to store the backup Locally or to Remote storage: Please select (A) for Remote and (B) for Local (here need to select A or B : A is for remote storage and B is for local storage).
 ```
 
 8. Once the above is done the cronjob will be created and the script will prompt you with a success message.
