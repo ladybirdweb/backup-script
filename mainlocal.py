@@ -21,9 +21,6 @@ import time
 
 # Setting the Variables:
 
-# Set the Backup Retention period in days for REMOTE Default 7 days:
-BACKUP_RETENTION = 7
-
 # Set the Backup Retention period in days for local Default 5 mins:
 LOCAL_BACKUP_RETENTION = 5 / (24 * 60)
 
