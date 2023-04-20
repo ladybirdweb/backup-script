@@ -15,7 +15,7 @@
 # Backup-Script
 
 > **Note** : 
-> This is an automated backup script that takes a backup of the Filesystem and Database and uploads the backups to the FTP-Server and retains the backup data for a specified time.
+> This is an automated backup script that takes a backup of the Filesystem and Database in local and also has option to uploads the backups to the FTP-Server and retains the backup data for a specified time.
 
 > **Warning** : 
 > This script works in LINUX BASED server's only
@@ -34,11 +34,11 @@
 https://github.com/ladybirdweb/backup-script.git
 ```
 
-2. Once the repository is cloned go inside the directory and you can find two files **main.py** and **cron.sh** after that follow the below steps.
+2. Once the repository is cloned go inside the directory and you can find three files **mainlocal.py** to store the backups locally and **mainremote.py** to store the bcakup to the remote FTP server and **cron.sh** after that follow the below steps.
 
 3. In this script we need to provide the below details to do the backup and upload operations.
 
-4. First we need to set the variable to the script in the **main.py** file, below are the details that we have to update in the script.
+4. First we need to set the variable to the script in the python script whcih you are using for local **mainlocal.py** file and for remote **mainremote.py** , below are the details that we have to update in the script.
 ```
 # Set the Backup Retention period in days for REMOTE Default 7 days:
 BACKUP_RETENTION = 7
@@ -61,6 +61,8 @@ MYSQL_PASSWORD = "database-password"
 
 # Set the database name you want to backup
 DATABASE_NAME = "database-name"
+
+##THIS IS ONLY FOR THE REMOTE BACKUPS IGNORE FOR THE LOCAL BACKUP
 
 # Set FTP credentials
 FTP_HOST = "ftp-hostname"
@@ -87,7 +89,7 @@ REMOTE_DIR = "/remote/directory/in/ftp/server"
 - **FTP_PASS =** Here mention the FTP user password.
 - **REMOTE_DIR =** Here mention the remote directory on FTP server where you want to upload the backup files.
 
-5. Once the above details are added to the **main.py** file the python script is ready.
+5. Once the above details are added to the **mainloacl.py** or **mainremote.py** file the python script is ready.
 
 6. We need to execute the **cron.sh** this is a shell script you need to change the file permission and execute it to do the same you should be inside the cloned repository.
 - To change the file permission run the below command.
@@ -106,7 +108,7 @@ chmod +x *
 ```
 Do you want to add or remove the cron job? Enter 'add' or 'remove':
 ```
-- Then it will ask a confirmation on whether the required details are added to **main.py** file: you can respond with yes or no, if you have added the details enter yes or enter no it will stop the script.
+- Then it will ask a confirmation on whether the required details are added to **Python** file: you can respond with yes or no, if you have added the details enter yes or enter no it will stop the script.
 ```
 Have you added the required details to the main.py script? Enter 'yes' or 'no':
 ```
