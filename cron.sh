@@ -135,6 +135,7 @@ function add_or_remove_cron() {
 			remote_or_local
 		fi
 		}
+		remote_or_local
     elif [[ "$choice" == "remove" ]]; then
 
     # CODE TO REMOVE CRON JOB
