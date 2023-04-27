@@ -66,12 +66,12 @@ function add_or_remove_cron() {
 	echo -e " 																														"
 
     if [[ "$choice" == "add" ]]; then
-        echo -e "$yellow Have you added the required details to the backup-automated-details.sh script? Enter 'yes' or 'no': $reset"
+        echo -e "$yellow Have you added the required details to the python script? Enter 'yes' or 'no': $reset"
         read -r confirmation
 		sleep 0.5 
 
         if [[ "$confirmation" == "no" ]]; then
-            echo -e "$red Please add the required details to the backup-automated-details.sh script and re-run the script. $reset"
+            echo -e "$red Please add the required details to the python script and re-run the script. $reset"
             return
         fi
         
@@ -83,10 +83,10 @@ function add_or_remove_cron() {
 	touch $script_dir/backup.log
 	
 	# PROMPT THE USER FOR THE CRON INTERVAL
-	echo "Select the cron interval:"
-	echo "1. Daily"  #THIS CRON IS FOR EVERYDAY
-	echo "2. Weekly"  #THIS CRON IS FOR EVERY WEEK AT SPECIFIED DAY IN THE BELOW INTERVAL CHOICE
-	echo "3. Monthly"  #THIS CRON IS FOR EVERY MONTH AT SPECIFIED DATE IN THE BELOW INTERVAL CHOICE
+	echo "$yellow Select the cron interval: $reset"
+	echo "$yellow 1. Daily $reset"  #THIS CRON IS FOR EVERYDAY
+	echo "$yellow 2. Weekly $reset"  #THIS CRON IS FOR EVERY WEEK AT SPECIFIED DAY IN THE BELOW INTERVAL CHOICE
+	echo "$yellow 3. Monthly $reset"  #THIS CRON IS FOR EVERY MONTH AT SPECIFIED DATE IN THE BELOW INTERVAL CHOICE
 	read -r interval_choice
 
 	# DETERMINE THE INTERVAL BASED ON USERS CHOICE
@@ -97,12 +97,12 @@ function add_or_remove_cron() {
 	elif [ "$interval_choice" = "3" ]; then
 	    interval="1 * *"  #THIS CRON IS FOR FIRST OF THE MONTH THIS CAN BE CHNAGED T0 1-31 ACCORDING TO THE DATE
 	else
-	    echo "Invalid selection. Please select a valid option."
+	    echo "$red Invalid selection. Please select a valid option. $reset"
 	    return
 	fi
 	
 	# PROMPT THE USER FOR COSTUM CRON TIME THE DETFAULT IS SET TO MIDNIGHT
-	echo "Enter the time of day to run the cron job (in 24-hour format, e.g. 23:30) or press Enter to use the default time of midnight:"
+	echo "$yellow Enter the time of day to run the cron job (in 24-hour format, e.g. 23:30) or press Enter to use the default time of midnight: $reset"
 	read -r time_input
 
 	if [ -z "$time_input" ]; then
@@ -121,7 +121,7 @@ function add_or_remove_cron() {
 
 	# PROMPT THE USER FOR LOCAL OR REMOTE BACKUPS
 		echo -e "$yellow Do you want to store the backup Locally or to Remote storage: Please select (A) for Remote and (B) for Local $reset"
-		read -p "Option (Remote:A / Local: B)" REPLY
+		read -p "$yellow Option (Remote:A / Local: B) $reset" REPLY
     	if [[ $REPLY = @(A|a) ]]; then
 		# SET UP THE CRON JOB TO RUN THE SCRIPT AT THE SPECIFIED TIME AND INTERVAL
 			(crontab -l 2>/dev/null; echo "${cron_time} ${interval} python3 ${script_dir}/mainremote.py >> ${script_dir}/backup.log 2>&1") | crontab -
