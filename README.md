@@ -180,54 +180,66 @@ Now the cron will run the script at the specified time and interval which will e
 
 1.c. Once that is done we need to configure the server.
 
-- once the above page is opened we need to create a user and set a password forthe same, to do so we need to click on the setting icon on the top and then click on the user and create a user as shown in the below snap.
+- Once the above page is opened we need to create a user and set a password for the same, to do so we need to click on the setting icon on the top and then click on the user and create a user as shown in the below snap.
 
 <img alt="" src="snaps/useradd.png">
 
-- once the above is done we can continue setting up the server to do so click on general as shown in the below snap.
+- Once the above is done we can continue setting up the server to do so click on general as shown in the below snap.
 
 <img alt="" src="snaps/serverconfig1.png">
 
-- click on server under general as shown in the above snap and fill the details below as shown in the above.
+- Click on **server** under general as shown in the above snap and fill the details below as shown in the above.
 
 
 **Backup storage path**: (this is the location where we need to store the backups in the server).
 **Server URL for client file/backup access/browsing**: (here we need to add the server url which you are trying to access urbackup).
 
-- Once that is done we need to set the options for the file backup to do so click the next option after the server as shown in the below snap.
+- Once that is done we need to set the options for the **File Backup** to do so click the next option after the server as shown in the below snap.
 
 <img alt="" src="snaps/filebackup.png">
 
-- we need to change the default values like interval for incremental file backups and things as show in the snap above, we can also change the options as per our requirements.
+- we need to change the default values like interval for incremental file backups and things as shown in the snap above, we can also change the options as per our requirements.
+
+> **Incremental Backup** : 
+> Instead of making a copy of every file on the server, backing up files incrementally stores just what has changed since the last backup was performed, only the files and db entries that have changed are backed up instead of backing up the whole data. 
+
+> **Incremental Backup Interval** : 
+> By default Incremental Backup Interval is set in hours, the default value is 5 hours, if it is to be changed, the minutes need to be changed to hours.
 
 
-- Then we can also change the options for image backups as shown in the below snap.
+- Then we can also change the options for **Image Backups** as shown in the below snap. This is optional and depends upon the needs of the client. 
 
 <img alt="" src="snaps/imagebackup.png">
 
-- once the above is done we need to configre the internet/active clients option this will be the confiuration we need to pass in the URbackupp client servers.
+- Once the above is done we need to configre the **Internet/Active Clients** option, this will be the configuration we need to pass in the URbackupp client servers.
 
-- to do the same follow the below snap.
+- To do the same follow the below snap.
 
 <img alt="" src="snaps/internetclientserver.png">
 
-- as shown in the above snap we need to enter the URbackup Server Domain or IP to it, this IP or domain we use for connecting URbackup client to the server.
+- As shown in the above snap we need to enter the URbackup Server Domain or IP to it, this IP or domain we use for connecting URbackup client to the server.
 
-- once the aboeve is done we can enable email notification for the backup to do so click on mail next to general and configure as show in the below snap.
+- Save the configuration changes everytime before moving to the next section.
+
+- Once the above is done we can enable email notification for the backup to do so click on **Mail** next to general and configure as show in the below snap.
 
 <img alt="" src="snaps/emailconfig.png">
 
-- once this is done the server is ready, now we can start adding clients to the server to do so, follow the below in structions.
+- Once this is done the server is ready, now we can start adding clients to the server to do so, follow the below in structions.
 
-- if you go to the urbackup home page, you can find a add client button over there as show in the below snap.
+- Go to the urbackup home page, you can find a **Add New Client** button over there as show in the below snap.
 
 <img alt="" src="snaps/urbackup-opening.png">
 
-- if we click on the add client it will ask you the client details with the IP or hostname and the client name as show in the below snap.
+- Click on the **Add New Client**, it will ask you the client details with the IP or hostname and the client name as show in the below snap.
 
 <img alt="" src="snaps/clientadd.png">
 
-- once this is done it will take you to the client download page as show in the below snap.
+There are two options to add the client:
+1. Internet/Active Client - This is the remote client, only client name needs to be mentioined for this option.
+2. Client to be discovered - This is for local network, IP/hostname of client needs to be mentioined for this option.
+
+- Once this is done it will take you to the client download page as show in the below snap.
 
 <img alt="" src="snaps/clientdownload.png">
 
@@ -235,11 +247,11 @@ Now the cron will run the script at the specified time and interval which will e
 
 **For Linux:**
 
-- It is easy for linux we just need to run the command under (Install it directly in the terminal via), this will set up the urbackup client in the linux make sure the port 55414 and passive port range 49152-65534.
+- It is easy for linux we just need to run the command under (Install it directly in the terminal via), this will set up the urbackup client in the linux. Make sure the port 55414 and passive port range 49152-65534 are open.
 
-- once the above is done we need to setup the directorys which has to be backuped up in client server, the below command is used in terminal to check the current backup directory list:
+- Once the above is done we need to setup the directories which has to be backuped up in client server, the below command is used in terminal to check the current backup directory list:
 ```
-/usr/local/bin/urbackupclientctl list | grep '^Backup directory'
+/usr/local/bin/urbackupclientctl list 
 ```
 
 - To add a backup direcroty you need to run the below command in the terminal:
@@ -251,7 +263,7 @@ Now the cron will run the script at the specified time and interval which will e
 
 - To remove a existing direcroty you need to get the direcroty which is added and to be removed from the list command and then need to run the below command replacing your path.
 ```
-/usr/local/bin/urbackupclientctl remove-backupdir --backuppath=/path/to/backup/dir
+/usr/local/bin/urbackupclientctl remove-backupdir -d /path/to/backup/dir
 ```
 
 - Once the above is added we need to restart the urbackup client to do so run the below command:
@@ -259,7 +271,24 @@ Now the cron will run the script at the specified time and interval which will e
 systemctl restart urbackupclientbackend
 ```
 
-- you can find the client in the urbackup dashboard as online and lastseen as shown in the below snap for example.
+- Check urbackup client status
+```
+systemctl status urbackupclientbackend
+```
+
+- Install LSB Modules for client
+
+For apt based servers like Ubuntu, Debian:
+```
+apt-get install lsb
+```
+
+For yum based servers like Alma, Rocky, RedHat, CentOS:
+```
+yum install lsb-core
+```
+
+- You can find the client in the urbackup dashboard as online and last seen as shown in the below snap for example.
 
 <img alt="" src="snaps/clientaddstatus.png">
 
@@ -283,7 +312,7 @@ systemctl restart urbackupclientbackend
 
 <img alt="" src="snaps/urbackupclientconfig.png">
 
-- In the above tab you can selet the mode of backups we can keet the defaults as shown in the above snap and client on finish.
+- In the above tab you can select the mode of backups we can keet the defaults as shown in the above snap and click on finish.
 
 - once that is done the URBackup client is installed with the selected options.
 
@@ -299,13 +328,13 @@ systemctl restart urbackupclientbackend
 
 <img alt="" src="snaps/urbackupclientsetting.png">
 
-- it will open a tab similar to above image and here you can set the interval of file backups and the folders to exclude and other options you can configre as per your requrement.
+- It will open a tab similar to above image and here you can set the interval of file backups and the folders to exclude and other options you can configre as per your requrement.
 
-- then click on the Imgae backups you will get a tab similar to the below snap and you can configure according to your requirements the default is below.
+- Then click on the Image backups you will get a tab similar to the below snap and you can configure according to your requirements the default is below.
 
 <img alt="" src="snaps/urbackupclientsetting1.png">
 
-- Once the above is done click on client next to the image backups as this is a preconfigured windows client the client section will be configured alreday so we don't need to chnage anything over there.
+- Once the above is done click on client next to the image backups. As this is a preconfigured windows client, the client section will be configured already so we don't need to chnage anything over there.
 
 <img alt="" src="snaps/urbackupclientsetting3.png">
 
@@ -317,7 +346,7 @@ systemctl restart urbackupclientbackend
 
 <img alt="" src="snaps/urbackupadd.png">
 
-- Once the above is done the client confiration will be compeletd, restart the urbackup service from the services in your windows machine.
+- Once the above is done the client configuration will be compeletd, restart the urbackup service from the services in your windows machine.
 
 - Once this is done you can check the status of the backup client and backup in the status option on the tray icon. it will be similar to below snap but this snap is a test so the connection is still waiting if it is connected it will show you as connected.
 
@@ -325,7 +354,7 @@ systemctl restart urbackupclientbackend
 
 **To take DB backups**
 
-- On Linux with the binary client: Change 0 to 1 in /usr/local/etc/urbackup/mariadbdump.conf. Afterwards file backups will include the dump file of the database at urbackup_backup_scripts/mariadbdump.sql and restart the urbackup client.
+- On Linux with the binary client: Change 0 to 1, also provide mysql root password in /usr/local/etc/urbackup/mariadbdump.conf. Afterwards file backups will include the dump file of the database at urbackup_backup_scripts/mariadbdump.sql and restart the urbackup client.
 
 - Once the above is done the urbackup will start taking DB backups also.
 
