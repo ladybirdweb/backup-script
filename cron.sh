@@ -57,7 +57,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# FUNCTION TO ADD OR REMOVE THE CORN JOB.
+# FUNCTION TO ADD OR REMOVE THE CORN JOB
 
 function add_or_remove_cron() {
     echo -e "$yellow Do you want to add or remove the cron job? Enter 'add' or 'remove': $reset"
