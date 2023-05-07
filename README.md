@@ -110,7 +110,7 @@ Do you want to add or remove the cron job? Enter 'add' or 'remove':
 ```
 - Then it will ask a confirmation on whether the required details are added to **Python** file: you can respond with yes or no, if you have added the details enter yes or enter no it will stop the script.
 ```
-Have you added the required details to the main.py script? Enter 'yes' or 'no':
+Have you added the required details to the python script? Enter 'yes' or 'no':
 ```
 
 - Then it will ask for the absolute path to the cloned directory, to get this detail you can run pwd in your terminal and paste the output here.
