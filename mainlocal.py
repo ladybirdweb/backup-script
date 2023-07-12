@@ -100,7 +100,7 @@ def Purge_Old_Backup():
         for file in files:
             if file.endswith(".gz"):
                 filepath = os.path.join(root, file)
-                if os.stat(filepath).st_mtime < now - DAYS_THRESHOLD * 86400:
+                if os.stat(filepath).st_mtime < now - LOCAL_BACKUP_RETENTION * 86400:
                     os.remove(filepath)
                     with open(LOG_FILE, "a") as f:
                         f.write(f"Deleted {filepath}.\n")
