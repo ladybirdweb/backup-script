@@ -15,7 +15,7 @@ import os
 import shutil
 import datetime
 import subprocess
-import ftplib
+import paramiko
 import time
 
 
@@ -100,38 +100,45 @@ def MySQL_Backup():
       print(f"Error during MySQL backup: {e}")
       return False
 
+#SCP UPLOAD & DELETE:
+def SCP_Upload():
+    try:
+        # Create SSH client
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-#FTP UPLOAD & DELETE:
-def FTP_Upload():
+        # Connect to SCP server
+        ssh.connect(FTP_HOST, FTP_PORT, FTP_USER, FTP_PASS)
 
-  try:
-    # Connect to FTP server
-    ftp = ftplib.FTP(FTP_HOST, FTP_PORT)
-    ftp.login(FTP_USER, FTP_PASS)
+        # Upload files with .gz extension
+        for filename in os.listdir(BACKUP_DIRECTORY):
+            if filename.endswith(".gz"):
+                local_file = os.path.join(BACKUP_DIRECTORY, filename)
+                remote_file = os.path.join(REMOTE_DIR, filename)
+                scp_client = ssh.open_sftp()
+                scp_client.put(local_file, remote_file)
+                scp_client.close()
+                print(f"Uploaded {local_file} to {remote_file}")
 
-    # Upload files with .gz extension
-    for filename in os.listdir(BACKUP_DIRECTORY):
-        if filename.endswith(".gz"):
-            local_file = os.path.join(BACKUP_DIRECTORY, filename)
-            remote_file = os.path.join(REMOTE_DIR, filename)
-            with open(local_file, 'rb') as f:
-                ftp.storbinary('STOR ' + remote_file, f)
-            print(f"Uploaded {local_file} to {remote_file}")
+        # Delete old backups
+        now = time.time()
+        scp_client = ssh.open_sftp()
+        scp_client.chdir(REMOTE_DIR)
+        for filename in scp_client.listdir():
+            file_attr = scp_client.stat(filename)
+            file_timestamp = file_attr.st_mtime
+            if (now - file_timestamp) > (BACKUP_RETENTION * 24 * 60 * 60):
+                print(f"Deleting old backup: {filename}")
+                scp_client.remove(filename)
+        scp_client.close()
 
-    # Delete old backups
-    now = time.time()
-    ftp.cwd(REMOTE_DIR)
-    for filename in ftp.nlst("*.gz"):
-        file_time = ftp.sendcmd("MDTM " + filename)
-        file_timestamp = time.mktime(time.strptime(file_time[4:], "%Y%m%d%H%M%S"))
-        if (now - file_timestamp) > (BACKUP_RETENTION * 24 * 60 * 60):
-            print(f"Deleting old backup: {filename}")
-            ftp.delete(filename)
-    ftp.quit()
-    return True
-  except Exception as e:
-      print(f"Error during FTP Upload: {e}")
-      return False
+        # Disconnect from the SCP server
+        ssh.close()
+
+        return True
+    except Exception as e:
+        print(f"Error during SCP Upload: {e}")
+        return False
 
 
 # Purge_Old_Backup function
@@ -161,7 +168,7 @@ def Purge_Old_Backup():
 
 
 # Execute functions in order and exit if any of them fails
-if File_System_Backup() and MySQL_Backup() and FTP_Upload() and Purge_Old_Backup():
+if File_System_Backup() and MySQL_Backup() and SCP_Upload() and Purge_Old_Backup():
     print('All functions executed successfully')
 else:
     print('Error: One or more functions failed')
