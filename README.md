@@ -25,7 +25,7 @@
 > **Note**
 > This script should be executed as SUDO user or SUDO privileged user.
 
--   This script requires **Python3**, **Cron**, **Tarball**, **FTP** to be installed in the server.
+-   This script requires **Python3** and **Python3 modules**: os, shutil, paramiko, datetime, subprocess, time (To install this you can use **pip install MODULE-NAME**), **Cron**, **Tarball**, **FTP** to be installed in the server.
 
 ## Usage
 ---
