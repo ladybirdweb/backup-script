@@ -44,7 +44,7 @@ DATABASE_NAME = "database-name"
 
 # Set FTP credentials
 FTP_HOST = "ftp-hostname"
-FTP_PORT = "21" # Default port is 21 if you have different valuse chnage it accordingly.
+FTP_PORT = "22" # Default port is 21 if you have different valuse chnage it accordingly.
 FTP_USER = "ftp-username"
 FTP_PASS = "ftp-password"
 
