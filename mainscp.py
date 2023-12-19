@@ -30,6 +30,9 @@ LOCAL_BACKUP_RETENTION = 5 / (24 * 60)
 # Set the directory you want to store backup files
 BACKUP_DIRECTORY = "/path/to/backup/directory"
 
+# Log File  for purge file
+LOG_FILE = "/path/to/backup/directory/backup.log"
+
 # Set the directory you want to take backup
 BACKUP_SOURCE = "/path/to/directory/to/backup"
 
