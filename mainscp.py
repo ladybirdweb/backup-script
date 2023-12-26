@@ -6,7 +6,7 @@
 ##---------- Github page : https://github.com/ladybirdweb/backup-script/---------------------##
 ##---------- Purpose : Auto Backup and upload for  Faveo Helpdesk in a linux system.---------##
 ##---------- Tested on : RHEL9/8/7, Rocky 9/8, Ubuntu22/20/18, CentOS 9 Stream, Debian 11----## 
-##---------- Initial version : v1.0 (Updated on 2nd Dec 2022) -------------------------------##
+##---------- Initial version : v2.0 (Updated on 2nd Dec 2022) -------------------------------##
 ##-----Note: This script requires root privileges, otherwise one could run the script -------##
 ##---------- as a sudo user who got root privileges. ----------------------------------------##
 ##----USAGE: "sudo python3 main.py" ---------------------------------------------------------##
