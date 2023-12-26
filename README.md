@@ -15,7 +15,7 @@
 # Backup-Script
 
 > **Note** : 
-> This is an automated backup script that takes a backup of the Filesystem and Database in local and also has option to uploads the backups to the FTP-Server and retains the backup data for a specified time.
+> This is an automated backup script that takes a backup of the Filesystem and Database in local and also has option to upload the backups to Remote server or Storage Box and also retains the backup data for a specified time on both remote and local.
 
 > **Warning** : 
 > This script works in LINUX BASED server's only
@@ -23,22 +23,23 @@
 ## Requirements 
 ---
 > **Note**
-> This script should be executed as SUDO user or SUDO privileged user.
+> This script should be executed as root user or SUDO privileged user.
 
 -   This script requires **Python3** and **Python3 modules**: os, shutil, paramiko, datetime, subprocess, time (To install this you can use **pip install MODULE-NAME**), **Cron**, **Tarball**, **FTP** to be installed in the server.
 
 ## Usage
 ---
-1. Clone this repository to your server from where you want to take backups.
+1. Clone this repository to your server from where you want to take backup.
 ```
 https://github.com/ladybirdweb/backup-script.git
 ```
 
-2. Once the repository is cloned go inside the directory and you can find three files **mainlocal.py** to store the backups locally and **mainremote.py** to store the bcakup to the remote FTP server and **cron.sh** after that follow the below steps.
+2. Once the repository is cloned, go inside the directory and you can find four files as follows **mainlocal.py** file is to take and store backups locally, **mainftp.py** file is to take and store backups to remote server or storage box with FTP method, **mainscp.py** file is to take and store backups to remote server or storage box with SCP method and the last file **cron.sh** is to setup cron on the server to take backups. After cloning follow the below steps.
 
-3. In this script we need to provide the below details to do the backup and upload operations.
+3. To take backups using this script we need to provide the following details to the python files.
 
-4. First we need to set the variable to the script in the python script whcih you are using for local **mainlocal.py** file and for remote **mainremote.py** , below are the details that we have to update in the script.
+4. First we need to set the variables to the python script based on which method is used. if the backups are taken and stored on the same server you need to provide the details on **mainlocal.py** file and also can ignore the details below (##THIS IS ONLY FOR THE REMOTE BACKUPS IGNORE FOR THE LOCAL BACKUP) and if the backups are moved to remote server or storage box the details should be provieded to either **mainftp.py** or **mainscp.py** depends on the methods used for moving backup files to remote server either FTP or SCP, below are the details that has to update in the python script.
+
 ```
 # Set the Backup Retention period in days for REMOTE Default 7 days:
 BACKUP_RETENTION = 7
@@ -49,10 +50,12 @@ LOCAL_BACKUP_RETENTION = 5 / (24 * 60)
 # Set the directory you want to store backup files
 BACKUP_DIRECTORY = "/path/to/backup/directory"
 
+# Log File for purged file details
+LOG_FILE = "/path/to/backup/directory/backup.log"
+
 # Set the directory you want to take backup
 BACKUP_SOURCE = "/path/to/directory/to/backup"
 
-# Set the MySQL server credentials
 # Set the MySQL server credentials
 MYSQL_HOST = "localhost" # Default is localhost if you want to use remote host change the value.
 MYSQL_PORT = "3306" # Default is 3306 if you want to use a different port change the value accordingly.
@@ -74,7 +77,8 @@ FTP_PASS = "ftp-password"
 REMOTE_DIR = "/remote/directory/in/ftp/server"
 ```
 
--  **BACKUP_RETENTION =** Here mention the backup retention period that you want to use in the remote FTP-Server in days (default is 7 days), this is used to save the last N no of days in the remote server.
+-  **BACKUP_RETENTION =** Here mention the backup retention period that you want to use in the remote FTP-Server in days (default is 7 days), this is used to save data on the remote directory for the last N no of days.
+- **LOG_FILE =** Here mention the path to the script folder where the scripts are present and there will be a file called backup.log mention the same name for the file, this is used to log the backup operations and purge operations.
 - **LOCAL_BACKUP_RETENTION =** Here mention the backup retention period that you want to use in the local server in days (default is 5 mins). this is used to delete the N no of days old files in the local server.
 - **BACKUP_DIRECTORY =** Here mention the directory where you want to store the backup zip files in the local server. (this should be an absolute path)
 - **BACKUP_SOURCE=** Here mention the directory in which you want to take a backup i.e filesystem directory. (this should be an absolute path)
@@ -89,7 +93,7 @@ REMOTE_DIR = "/remote/directory/in/ftp/server"
 - **FTP_PASS =** Here mention the FTP user password.
 - **REMOTE_DIR =** Here mention the remote directory on FTP server where you want to upload the backup files.
 
-5. Once the above details are added to the **mainloacl.py** or **mainremote.py** file the python script is ready.
+5. Once the above details are added to the **mainloacl.py** or **mainftp.py** or **mainscp.py** file the python script is ready.
 
 6. We need to execute the **cron.sh** this is a shell script you need to change the file permission and execute it to do the same you should be inside the cloned repository.
 - To change the file permission run the below command.
@@ -101,21 +105,21 @@ chmod +x *
 /bin/bash cron.sh
 ```
 
-7. Once the script is executed it will ask you for the below details.
+7. Once the script is executed it will ask you for following details.
 
-- You can **ADD** or **REMOVE** cron with the first option, it will ask you whether to add or remove the cronjob like below: you need to enter add or remove as per your need (if you enter to remove the script will search and remove the backup script cronjob)
+- You can **ADD** or **REMOVE** cron with the first option, it will ask you whether to add or remove the cronjob like below: you need to enter add or remove as per your need (if you enter to remove the script will search and remove the backup script cronjob if present in the server, if you enter add it will continue to prceed with the following).
 
 ```
 Do you want to add or remove the cron job? Enter 'add' or 'remove':
 ```
-- Then it will ask a confirmation on whether the required details are added to **Python** file: you can respond with yes or no, if you have added the details enter yes or enter no it will stop the script.
+- Then it will ask for confirmation on whether the required details are added to **Python** file: you can respond with yes or no, if you have added the details enter yes or enter no it will stop the script.
 ```
 Have you added the required details to the python script? Enter 'yes' or 'no':
 ```
 
-- Then it will ask for the absolute path to the cloned directory, to get this detail you can run pwd in your terminal and paste the output here.
+- Then it will ask for the absolute path to the cloned directory, to get this detail you can run pwd from inside the clonned folder in your terminal and paste the output here.
 ```
-Enter the directory path for the scripts (to get this directory use 'pwd' command):
+Enter the directory path for the scripts (to get this directory use 'pwd' command from the clonned directory):
 ```
 - Then it will ask for the cron interval there will be three options Daily, Weekly, Monthly 
 ```
@@ -129,11 +133,15 @@ Select the cron interval:
 ```
 Enter the time of day to run the cron job (in 24-hour format, e.g. 23:30) or press Enter to use the default time of midnight:
 ```
-- The final step is to select whether to store backups in local server or to the remote serevr to do so the script will ask you the below.
+- The next step is to select whether to store backups in local server or to the remote serevr to do so the script will ask you the below and you can provide answers with A or B.
 ```
 Do you want to store the backup Locally or to Remote storage: Please select (A) for Remote and (B) for Local (here need to select A or B : A is for remote storage and B is for local storage).
 ```
-
+- The last step is to select which method should be used for storing the files to remote storage you can provide the preference with optioins C and D.
+```
+ Select SCP or FTP to upload the files to remote storage. 
+ (SCP:C / FTP:D)
+```
 8. Once the above is done the cronjob will be created and the script will prompt you with a success message.
 
 ## Conclusion
@@ -142,7 +150,8 @@ Now the cron will run the script at the specified time and interval which will e
 
 
 ---
-
+WINDOWS OPTION:
+---
 
 ```
 
@@ -165,7 +174,7 @@ Now the cron will run the script at the specified time and interval which will e
 
 ## Requirements
 ---
-1. We need a Server to store the backups which are taken. this server can be Windows or Linux based.
+1. We need a Server to store the backups when using this tool. this server can be Windows or Linux based.
 
 ## Usage
 1. We need to set up the URBACKUP Server first to do the same follow the below steps.
